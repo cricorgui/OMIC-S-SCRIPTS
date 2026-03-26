@@ -125,20 +125,20 @@ rm -f ${DIRECTORY}/raw_data/bam/"$(basename ${FW_FILE} _Fw.fastq.gz)_unsorted.ba
 
 # ====================  BEDGRAPH AND BIGWIG  ====================
 # Bin size = 1bp and CPM normalization
-docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${FW_FILE} _Fw.fastq.gz).bam" -of bedgraph --binSize 1 --normalizeUsing CPM --filterRNAstrand forward -o "/workspace/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_CPM_unsorted.bedgraph"
-docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${RV_FILE} _Fw.fastq.gz).bam" -of bedgraph --binSize 1 --normalizeUsing CPM --filterRNAstrand reverse -o "/workspace/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_CPM_unsorted.bedgraph"
+docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${FW_FILE} _Fw.fastq.gz).bam" -of bedgraph --binSize 1 --normalizeUsing CPM --filterRNAstrand forward -o "/workspace/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_Fw_CPM_unsorted.bedgraph"
+docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${RV_FILE} _Fw.fastq.gz).bam" -of bedgraph --binSize 1 --normalizeUsing CPM --filterRNAstrand reverse -o "/workspace/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_Rv_CPM_unsorted.bedgraph"
 
 # Sort bedgraph
-docker run --rm --user root -v ${DIRECTORY}:/workspace biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1 bedtools sort -i "/workspace/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_CPM_unsorted.bedgraph" | tee "${DIRECTORY}/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_CPM.bedgraph"
-docker run --rm --user root -v ${DIRECTORY}:/workspace biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1 bedtools sort -i "/workspace/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_CPM_unsorted.bedgraph" | tee "${DIRECTORY}/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_CPM.bedgraph"
+docker run --rm --user root -v ${DIRECTORY}:/workspace biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1 bedtools sort -i "/workspace/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_Fw_CPM_unsorted.bedgraph" | tee "${DIRECTORY}/data/bedgraph/$(basename ${FW_FILE} .fastq.gz)_Fw_CPM.bedgraph"
+docker run --rm --user root -v ${DIRECTORY}:/workspace biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1 bedtools sort -i "/workspace/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_Rv_CPM_unsorted.bedgraph" | tee "${DIRECTORY}/data/bedgraph/$(basename ${RV_FILE} .fastq.gz)_Rv_CPM.bedgraph"
 echo "Bedgraph file obtained successfully"
 
 rm  -f ${DIRECTORY}/data/bedgraph/"$(basename ${FW_FILE} .fastq.gz)_CPM_unsorted.bedgraph"
 rm  -f ${DIRECTORY}/data/bedgraph/"$(basename ${RV_FILE} .fastq.gz)_CPM_unsorted.bedgraph"
 
 # Bigwig file
-docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${FW_FILE} .fastq.gz).bam" -of bigwig --binSize 1 --normalizeUsing CPM --filterRNAstrand forward -o "/workspace/data/bigwig/$(basename ${FW_FILE} .fastq.gz)_CPM.bigwig"
-docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${RV_FILE} .fastq.gz).bam" -of bigwig --binSize 1 --normalizeUsing CPM --filterRNAstrand reverse -o "/workspace/data/bigwig/$(basename ${RV_FILE} .fastq.gz)_CPM.bigwig"
+docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${FW_FILE} .fastq.gz).bam" -of bigwig --binSize 1 --normalizeUsing CPM --filterRNAstrand forward -o "/workspace/data/bigwig/$(basename ${FW_FILE} .fastq.gz)_Fw_CPM.bigwig"
+docker run --rm --user root -v ${DIRECTORY}:/workspace ctomlins/bamcoverage bamCoverage -p 20 -b "/workspace/raw_data/bam/$(basename ${RV_FILE} .fastq.gz).bam" -of bigwig --binSize 1 --normalizeUsing CPM --filterRNAstrand reverse -o "/workspace/data/bigwig/$(basename ${RV_FILE} .fastq.gz)_Rv_CPM.bigwig"
 
 echo "Bigwig file obteined finished succesfully"
 
